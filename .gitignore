@@ -11,3 +11,4 @@ google-cloud-sdk/
 data/source/
 outputs/old/
 outputs/gemini-1.0-pro-002/
+*.ipynb_checkpoints
