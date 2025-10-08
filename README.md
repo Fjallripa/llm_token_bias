@@ -1,13 +1,20 @@
 # A Peak Into Token Bias - seminar project
 
-This repository is a fork of [bowen-upenn/llm_token_bias](https://github.com/bowen-upenn/llm_token_bias). It's part of a 2025 seminar coding project on In-Context Learning (ICL) in LLMs and aims to reproduce and build on the paper's analysis of experimental results. The raw LLM outputs from all the paper's experiments are already collected under the folder [outputs](https://github.com/Fjallripa/llm_token_bias/tree/main/outputs).
+This repository is a fork of [bowen-upenn/llm_token_bias](https://github.com/bowen-upenn/llm_token_bias). It's part of a 2025 seminar coding project on In-Context Learning (ICL) in LLMs and aims to reproduce the paper's analysis of experimental results. 
+
+#### For this project, see:
+- [ICL seminar project report.md](ICL%20seminar%20project%20report.md)
+- [analysis.ipynb](analysis.ipynb)
+
+#### Regarding the rest of this repository:
+The raw LLM outputs from all the paper's experiments are already collected under the folder [outputs](https://github.com/Fjallripa/llm_token_bias/tree/main/outputs).
 
 The original repository contains the code and datasets necessary to reproduce the experiments of the paper ["A Peek into Token Bias: Large Language Models Are Not Yet Genuine Reasoners"](https://arxiv.org/abs/2406.11050) (Jiang et al., 2024) though it doesn't seem to contain the code needed to analyse the results.
 
 
 *The rest of this README is unchanged from the original repository.*
 
-
+---
 
 ## [EMNLP 2024] This is the official implementation of the paper ["A Peek into Token Bias: Large Language Models Are Not Yet Genuine Reasoners"](https://arxiv.org/pdf/2406.11050) in PyTorch.
 
