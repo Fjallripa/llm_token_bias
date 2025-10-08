@@ -1,14 +1,14 @@
 *This is the final report of a paper implementation project for the seminar "The Mystery of In-Context Learning of LLMs" in the summer term 2025 at Heidelberg University.* 
 
 
-###### Overview
+#### Overview
 The paper investigates whether LLMs are susceptible to so-called token bias in their reasoning. I tried to reproduce the paper's analysis to see whether their conclusions were solid. My detailed results differed from the paper's results in quite a number of ways (probably my error though), though they still support the overall conclusion that LLMs indeed lean on this bias in their reasoning. 
 
-###### About the paper
-The paper ["A peak into token bias"] tries to systematically test an aspect of LLM reasoning capability by investigating whether they are susceptible to a particular kind of reasoning bias they call token bias. If they show themselves to be biased in this way, that demonstrates that they aren't yet capable of "genuine" (aka. perfectly logical) reasoning.
+#### About the paper
+The paper ["A peak into token bias"](https://arxiv.org/abs/2406.11050) tries to systematically test an aspect of LLM reasoning capability by investigating whether they are susceptible to a particular kind of reasoning bias they call token bias. If they show themselves to be biased in this way, that demonstrates that they aren't yet capable of "genuine" (aka. perfectly logical) reasoning.
 The paper then goes on to statistically prove that LLMs in general do in fact exhibit this bias. Though they don't investigate whether all individual tested LLMs or prompting methods fall prey to this bias.
 
-###### Motivation & Plan
+#### Motivation & Plan
 I chose the paper I had presented earlier in the seminar as I already was deeply familiar with it and it was decently interesting. Employing some new methodology (stat. hypothesis testing) for LLM performance evaluation for testing special reasoning biases in LLMs is close to the subfield AI Evals of the field AI Safety that I'm interested in.
 
 Extending this paper's insights in a seminar implementation project would be quite easy: This evals paper's code repository already contained all the raw experimental results (no need to run the LLMs myself again) and the paper itself only looked at the overall result but didn't investigate how well different LLMs performed or what prompting methods reduced bias the most.
@@ -17,19 +17,19 @@ While combing through the paper for my talk, I had also noticed a number of erro
 When sitting down and planning my implementation project, I noticed that the analysis code or results where completely missing in the paper's repository, only the raw experimental results and the code to create them were there.
 I decided then that a reasonable scope for this project would be to focus on recreating the analysis code and comparing my results tables with the paper's one, to see if the paper's conclusions held.
 
-###### Details of what I did
+#### Details of what I did
 1. got the repo to run locally
-	- I had to rederive python version and tweak requirements.txt to make the environment work. See my Appendix section [[#Steps to set up this repo]] for details.
+	- I had to rederive python version and tweak requirements.txt to make the environment work. See my Appendix section [Steps to set up this repo](#steps-to-set-up-this-repo) for details.
 2. puzzled together which experiment (Hypothesis 1 - 6) used what dataset and produced which outputs
 	- The paper and the repository files used different names and sometimes different organizing structures for the datasets and the kinds of outputs (prompting methods) used. The info about what experiment used what datasets and producted what output was scattered all about the paper.
-	- Piecing together what experiment used what datasets and what outputs took up a large part of this project. See my Appendix section [[#Linking Hypotheses, outputs and datasets - finally solved]] for details.
+	- Piecing together what experiment used what datasets and what outputs took up a large part of this project. See my Appendix section [Linking Hypotheses, outputs and datasets - finally solved](#linking-hypotheses-outputs-and-datasets---finally-solved) for details.
 3. Wrote the analysis code from scratch.
 	- The analysis was completely missing from the repository. All its code concerns itself with producing the raw experimental results (i.e. json files with LLM outputs and right/wrong gradings).
-	- See [[#Methodology]] for details.
+	- See [Methodology](#methodology) for details.
 4. Compared the results of my analysis with the detailed results in the paper's appendix.
-	- See [[#Observations - Comparing my results with the paper's]] and [[#Discussion of results]] for details.
+	- See [Observations - Comparing my results with the paper's](#observations---comparing-my-results-with-the-papers) and [Discussion of results](#discussion-of-results) for details.
 
-###### Methodology
+#### Methodology
 - goal: try to reproduce the experimental results in the paper's appendix using the same raw experimental data.
 - the raw experimental results have the following structure
 	- The datasets used in the paper are synthetically generated lists of "trick" questions either on the conjunction fallacy or the syllogistic fallacy.
@@ -44,17 +44,17 @@ I decided then that a reasonable scope for this project would be to focus on rec
 - To recreate the analysis, I created the following functions:
 	- `collect_grades()` extracts the grade pairs from pairs of json output files
 	- `calc_test_statistics()` computes $n_{12}$, $n_{21}$, $n^*$, $z$, and the p-value via scipy's `binomtest()`.
-	- `do_benjamini_hochberg()` computes which hypotheses to reject in order to control the FDR at 5%. My implementation is adapted from [Wikipedia's] explanation.
+	- `do_benjamini_hochberg()` computes which hypotheses to reject in order to control the FDR at 5%. My implementation is adapted from [Wikipedia's](https://en.wikipedia.org/wiki/False_discovery_rate#Benjamini%E2%80%93Hochberg_procedure) explanation.
 	- `run_analysis()` returns a dictionary of all the resulting values which then is turned into a Dataframe table formatted like the paper's tables.
 	-  With `run_analysis()`, I create one table of analysis results for each big paper Hypothesis.
 - How the comparison is done:
 	- In my Observations section below, I check which table values match and how many rejections there are compared to the paper. (The paper doesn't say explicitly how many hypotheses are rejected per Hypothesis, you have to count them manually.)
 	- Any further things I note go under 'remarks'.
 	- For the raw analysis tables, see:
-		- my analysis results: [analysis.ipynb] # Hypothesis 1 - 6
-		- paper results: Appendix D in the [paper]
+		- my analysis results: [analysis.ipynb](analysis.ipynb) # Hypothesis 1 - 6
+		- paper results: Appendix D in the [paper](https://arxiv.org/abs/2406.11050)
 
-###### Observations - Comparing my results with the paper's
+#### Observations - Comparing my results with the paper's
 - Hyp. 1:
 	- comparison
 		 - n values don't quite match. Thus z- and p-values don't match either.
@@ -95,11 +95,11 @@ I decided then that a reasonable scope for this project would be to focus on rec
 	- remarks
 		- some datasets for the last 4 models are again incomplete (I excluded those models).
 
-###### Discussion of results
+#### Discussion of results
 It is quite surprising to me that my and the paper's raw results (n-, z, and p-values) only occasionally matched. In fact, only Hyp. 3 had perfect agreement on n- and z-values.
 
 Wrt. n-values, as they were counted up directly from the raw experiment outputs, I see only three possible explanations for the difference:
-1. an error in my conclusions from [[#Linking Hypotheses, outputs and datasets - finally solved]]
+1. an error in my conclusions from [Linking Hypotheses, outputs and datasets - finally solved](#linking-hypotheses-outputs-and-datasets---finally-solved)
 	- unlikely, since also Hyp. 4 and 5 with one dataset each are affected
 2. a subtle error in my code
 	- that still made Hyp. 3 work as expected
@@ -118,8 +118,8 @@ Irrespective of these differences, when looking broadly at my analysis' rejectio
 
 
 
-##### Appendix
-###### Steps to set up this repo
+### Appendix
+#### Steps to set up this repo
 1. create conda environment
 ```bash
 conda create -n "ltb" python=3.10   # ltb = llm_token_bias
@@ -127,7 +127,7 @@ conda activate ltb
 ```
 
 2. clone this repository
-	- check if ssh connection to github is set up properly. If not, check out [[#Steps to create an SSH authentication key]]
+	- check if ssh connection to github is set up properly. If not, check out [Steps to create an SSH authentication key](#steps-to-create-an-ssh-authentication-key)
 	- \<dir\> = the folder under which you want to store the repo
 	- clone the repo via the ssh connection
 ```bash
@@ -145,7 +145,7 @@ pip install -r requirements.txt
 
 
 
-###### Linking Hypotheses, outputs and datasets - finally solved
+#### Linking Hypotheses, outputs and datasets - finally solved
 - abbreviations
 	- conj. = conjunction fallacy, syll. = syllogistic fallacy
 	- var. = variant
@@ -199,7 +199,7 @@ pip install -r requirements.txt
 
 
 
-###### Steps to create an SSH authentication key
+#### Steps to create an SSH authentication key
 - To clone the repo from GitHub, you may need to set up such a key.
 	- It can be reused for other repository sites as well.
 1. Create a new ssh key if you haven't got one already.
